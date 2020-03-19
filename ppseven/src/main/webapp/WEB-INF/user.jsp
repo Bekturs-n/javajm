@@ -11,11 +11,11 @@
 </form>
 <div style="margin: auto; padding: auto; width: 500px;">
     <h2> Hello ${user.username}</h2>
-    <c:if test="${fn:contains(user.roles, 'ROLE_ADMIN')}">
-        <form action="/admin" method="get">
-            <input type="submit" value="Go to admin page"/>
-        </form>
-    </c:if>
-</div>
+<%--    <c:if test = "${user.roles == 'ROLE_ADMIN'}">--%>
+<%--        <form action="/admin" method="get">--%>
+<%--            <input type="submit" value="Go to admin page"/>--%>
+<%--        </form>--%>
+<%--    </c:if>--%>
+<%--</div>--%>
 </body>
 </html>

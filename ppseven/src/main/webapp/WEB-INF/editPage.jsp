@@ -38,20 +38,25 @@
             </div>
             <div>
                 Password:
-                <input type="text" name="password" id="password" value="${user.password}">
+                <input type="password" name="password" id="password" value="">
                 <p align="center" style="color: red">${error2}</p>
             </div>
         </div>
-        <div >
-            <c:forEach items="${roles}" var="role">
-                <div>
-                    <label>
-                        <input type="radio" name="role" value="${role.name()}"
-                               <c:if test="${fn:contains(user_role, role)}">checked</c:if>>
-                            ${role.toString()}
-                    </label>
-                </div>
-            </c:forEach>
+        <div>
+            <%--            <c:forEach items="${roles}" var="role">--%>
+            <div>
+                <label>
+                    <input type="radio" name="role" value="ADMIN"
+                           <c:if test="${user_role}">checked</c:if>>
+                    ADMIN
+                </label>
+                <label>
+                    <input type="radio" name="role" value="USER"
+                           <c:if test="${!user_role}">checked</c:if>>
+                    USER
+                </label>
+            </div>
+            <%--            </c:forEach>--%>
             <br>
             <input type="submit" value="Save changes">
         </div>

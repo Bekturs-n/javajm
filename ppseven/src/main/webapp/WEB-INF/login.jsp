@@ -42,10 +42,6 @@
             <input type="password" name="password" id="password"><br><br>
             <input type="submit" value="Login">
         </form>
-        <form action="/registration" method="get">
-            <input type="submit" value="Registration"/>
-        </form>
-<%--        <a href="/registration">Registration</a>--%>
     </div>
 </div>
 <h2>${error}</h2>

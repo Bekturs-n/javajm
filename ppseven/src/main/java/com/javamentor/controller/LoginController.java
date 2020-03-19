@@ -1,21 +1,29 @@
 package com.javamentor.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class HomePageController {
+public class LoginController {
     @RequestMapping(value = "/")
     public String home() {
-        return "redirect:/user";
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/login")
     public String getIndex(@RequestParam(name = "error", required = false) Boolean error,
-                           Model model){
-        if (Boolean.TRUE.equals(error)){
+                           Model model, Authentication authentication) {
+        if (authentication != null) {
+            if (authentication.getAuthorities().iterator().next().getAuthority().contains("ADMIN")) {
+                return "redirect:/admin";
+            } else {
+                return "redirect:/user";
+            }
+        }
+        if (Boolean.TRUE.equals(error)) {
             model.addAttribute("error", "Bad credentails!");
         }
         return "login";

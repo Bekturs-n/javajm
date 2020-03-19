@@ -5,70 +5,39 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "email")
     private String username;
-
     @Column(name = "password")
     private String password;
-
     @Transient
     private String password2;
 
     private boolean isActive;
-
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
 
     public User() {
     }
 
-    public User(String username, String password, boolean isActive, Set<Role> roles) {
+    public User(String username, String password, Set<Role> roles, boolean isActive) {
         this.username = username;
         this.password = password;
         this.isActive = isActive;
-        this.roles = roles;
-    }
-
-    public String getPassword2() {
-        return password2;
-    }
-
-    public void setPassword2(String password2) {
-        this.password2 = password2;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    public User(String username, String password, Set<Role> roles) {
-        this.username = username;
-        this.password = password;
         this.roles = roles;
     }
 
@@ -80,16 +49,38 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Set<Role> getRoles() {
-        return roles;
+        if (roles != null)
+            return roles;
+        return new HashSet<>();
     }
 
     public void setRoles(Set<Role> roles) {

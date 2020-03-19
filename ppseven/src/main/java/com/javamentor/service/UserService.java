@@ -6,19 +6,19 @@ import java.util.List;
 
 public interface UserService {
 
-    void addUsers(String username, String password);
+    void addUsers(User user, String role);
 
     List<User> getAllUser();
 
     User getUserByID(Long id);
 
-    void changeUserData(Long id, User user);
+    void changeUserData(Long id, User user, boolean pass);
 
     void deleteUser(Long id);
 
     boolean validateUser(User user);
 
-    User getUserByName(String name);
-
     boolean nameIsEmpty(String login);
+
+    User getUserByName(String name);
 }

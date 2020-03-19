@@ -1,58 +1,47 @@
 package com.javamentor.service;
 
 import com.javamentor.dao.UserDAO;
-import com.javamentor.dao.UserDAOImpl;
 import com.javamentor.model.Role;
 import com.javamentor.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
-    private static volatile UserServiceImpl instance;
+    private final UserDAO userDAO;
 
-    private UserDAO userDAO;
-    private UserServiceImpl() {
-        userDAO = new UserDAOImpl();
+    @Autowired
+    public UserServiceImpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return getUserByName(username);
+        return userDAO.findByName(username);
     }
 
-    public static UserServiceImpl getInstance() {
-        if (instance == null) {
-            synchronized (UserServiceImpl.class) {
-                if (instance == null) {
-                    instance = new UserServiceImpl();
-                }
-            }
-        }
-        return instance;
-    }
 
     @Override
-    public void addUsers(String username, String password) {
-        User user = new User();
-//        user.setPassword(passwordEncoder.encode(password));
-        user.setPassword(password);
-        user.setUsername(username);
+    public void addUsers(User user, String role) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.ROLE_USER));
+        if (role.equals("ADMIN")) {
+            user.setRoles(Collections.singleton(new Role(1l, "ROLE_ADMIN")));
+        } else {
+            user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+        }
+
         userDAO.addUser(user);
     }
 
@@ -67,7 +56,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void changeUserData(Long id, User user) {
+    public void changeUserData(Long id, User user, boolean pass) {
+        if (pass) {
+            user.setPassword(userDAO.getUserById(user.getId()).getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        user.setActive(true);
         userDAO.updateUser(id, user);
     }
 
@@ -91,8 +86,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User getUserByName(String name) {
-        return userDAO.getAllUsers().stream()
-                .filter(f -> f.getUsername().equals(name))
-                .findFirst().orElse(null);
+        return userDAO.findByName(name);
     }
 }
