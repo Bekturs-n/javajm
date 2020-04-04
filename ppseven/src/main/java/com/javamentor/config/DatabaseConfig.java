@@ -27,13 +27,10 @@ import java.util.Properties;
 @ComponentScan(value = "com.javamentor")
 public class DatabaseConfig {
 
-
     // Private fields
     @Autowired
     private Environment env;
 
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
     private LocalContainerEntityManagerFactoryBean entityManagerFactory;
@@ -55,7 +52,7 @@ public class DatabaseConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactory.setDataSource(dataSource);
+        entityManagerFactory.setDataSource(dataSource());
         // Classpath scanning of @Component, @Service, etc annotated class
         entityManagerFactory.setPackagesToScan("com.javamentor.model");
         // Vendor adapter

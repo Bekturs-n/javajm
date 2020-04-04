@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"
+          th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row mynav">
+        <div class="col-md-11">
+            <h4> My project </h4>
+        </div>
+        <div class="col-md-1 ">
+            <div style="">
+                <form th:action="@{/logout}" method="post" style="margin: auto;">
+                    <button type="submit" value="Sing out" class="btn-link1">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2" style="padding: 20px 0px 0px 0px;">
+        <div class="vertical-menu btn-block" style="text-align: center">
+            <a href="/admin">Admin</a>
+            <a href="/user"  class="active">User</a>
+        </div>
+    </div>
+    <div class="col-md-10" style="background-color: #efefef; padding: 20px; height: 100vh;">
+        <h1>User page</h1>
+        <h4>
+            Hello [[${#httpServletRequest.remoteUser}]]!
+        </h4>
+    </div>
+</div>
+</body>
+</html>

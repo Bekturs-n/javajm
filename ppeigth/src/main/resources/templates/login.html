@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title> Login</title>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"
+          th:href="@{/css/style.css}" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        button.button24 {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            padding: .5em 2em;
+            outline: none;
+            border-width: 2px 0;
+            border-style: solid none;
+            border-color: #225c8c #1f5481 #1f5481;
+            border-radius: 6px;
+            background: linear-gradient(#2e79b6, #225c8c) #225c8c;
+            transition: 0.2s;
+        }
+        button.button24:hover { background: linear-gradient(#508ec2, #215b8a) #508ec2; }
+        button.button24:active { background: linear-gradient(#215b8a, #508ec2) #215b8a; }
+        body{
+            background: #efefef;
+            font-family: Arial;
+        }
+        h3{
+            font-weight: bold;
+        }
+        #username {
+            border-radius: 5px 5px 0px 0px;
+        }
+        #password {
+            border-radius: 0px 0px 5px 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4" style="margin: auto;">
+            <form action="/login/process" method="POST" class="form-horizontal" style="padding: 80px 0px">
+                <div class="form-group">
+                    <div class="col">
+                        <h3> Please sign in </h3>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="username" placeholder="Email address"
+                               class="form-control">
+                        <input type="password" name="password" placeholder="Password"
+                               class="form-control">
+                        <!--                <input type="submit" value="Login" class="btn btn-info">-->
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block button24">Login</button>
+                </div>
+                <!--            <button type="button" class="btn btn-info">Info</button>-->
+            </form>
+        </div>
+    </div>
+</div>
+
+<div style="width: 200px; margin: auto;">
+    <h2 th:utext="${error}" style="color: red;"></h2>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
