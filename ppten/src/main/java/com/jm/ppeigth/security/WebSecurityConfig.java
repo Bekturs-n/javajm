@@ -23,15 +23,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(NoOpPasswordEncoder.getInstance());
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/login", "/rest").anonymous()
+                    .antMatchers("/login", "/rest").permitAll()
                     .antMatchers("/user").hasAnyRole("USER", "ADMIN")
                     .antMatchers("/admin/**", "/registration").hasRole("ADMIN")
+                    .antMatchers("/resources/**").permitAll()
+                    .antMatchers("/css/**", "/js/**").permitAll()
                     .anyRequest().permitAll()
                 .and().csrf().disable()
                     .formLogin()

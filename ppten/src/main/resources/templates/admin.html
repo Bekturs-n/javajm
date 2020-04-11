@@ -1,0 +1,166 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"
+          th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row mynav">
+        <div class="col-md-11">
+            <h4> My project </h4>
+        </div>
+        <div class="col-md-1 ">
+            <div style="">
+                <form th:action="@{/logout}" method="post" style="margin: auto;">
+                    <button type="submit" value="Sing out" class="btn-link1">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2" style="padding: 20px 0px 0px 0px;">
+        <div class="vertical-menu btn-block" style="text-align: center">
+            <a href="/admin" class="active">Admin</a>
+            <a href="/user">User</a>
+        </div>
+    </div>
+    <div class="col-md-10" style="background-color: #efefef; padding: 20px; height: 100vh;">
+        <h1>Admin page [[${#httpServletRequest.remoteUser}]]</h1>
+        <ul class="nav nav-tabs" id="myTab" style="width: 85%">
+            <li class="nav-item"><a class="nav-link active" href="#home">Users table</a></li>
+            <li class="nav-item"><a class="nav-link" href="#menu1">New user</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content" style="width: 85%;">
+        <!-- 1 tabs -->
+            <div id="home" class="tab-pane active show container shadow-sm bg-white rounded p-0 m-0">
+                <div class="row p-0 m-0">
+                    <div class="col nav1" style="border-radius: 0">
+                        <h4>All users</h4>
+                    </div>
+                </div>
+                <div class="row p-0 m-0">
+                    <div class="col p-2">
+                        <table class="table" style="background-color: white;">
+
+                            <thead>
+                            <tr>
+                                <th>id&ensp;&ensp;</th>
+                                <th>login&ensp;</th>
+                                <th>Roles&ensp;&ensp;</th>
+                                <th>Action&ensp;&ensp;</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+<!--        2 tabs -->
+            <div id="menu1" class="tab-pane container fade shadow-sm bg-white rounded p-0 m-0">
+                <div class="row p-0 m-0">
+                    <div class="col nav1" style="border-radius: 0">
+                        <h4>Add user</h4>
+                    </div>
+                </div>
+                <form style="background-color: white"
+                      class="text-center p-3">
+                    <div class="form-group">
+                        <h6 align="center">Username</h6>
+                        <input onclick="clear()" type="text" name="username" id="username">
+                        <p id="error1" class="font-italic" style="display: none; color: red;" align="center">Выберите другое имя</p>
+                    </div>
+                    <div class="form-group">
+                        <h6 align="center">Password</h6>
+                        <input onclick="clear()" type="text" name="password" id="password">
+                        <p id="error2" class="font-italic" style="display: none; color: red;" align="center">Выберите другой пароль!</p>
+                    </div>
+                    <div class="form-group">
+                        <h6 align="center">Confirm password</h6>
+                        <input onclick="clear()" type="text" name="password1" id="password1">
+                        <p id="error3" style="display: none; color: red;" align="center">Пароли не совпадают!</p>
+                    </div>
+                    <div class="form-group">
+                        <h6 align="center">Role</h6>
+<!--                        <input type="text" name="role" value="admin">-->
+                        <select id="roles" name="role" style="width: 180px;">
+                            <option>Admin</option>
+                            <option>User</option>
+                        </select>
+                    </div>
+                    <div id="okadd" class="form-group" style="display: none; color: green;">
+                        <i>Ползователь добавлен</i>
+                    </div>
+                    <button onclick="addUser()" type="button" class="btn btn-success">Add new user</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Modal page begin -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content justify-content-center">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="changer" class="text-center">
+                    <div class="form-group">
+                        <h6 align="center">ID</h6>
+                        <input type="text" class="userId" id="id" disabled>
+                    </div>
+                    <div class="form-group">
+                        <h6 align="center">Username</h6>
+                        <input onclick="hide()" type="text" class="userName" id="uname" name="username">
+                        <p id="errorM" class="font-italic" style="display: none; color: red;" align="center">Выберите другое имя</p>
+                    </div>
+                    <div class="form-group">
+                        <h6 align="center">Password</h6>
+                        <input type="text" class="password" name="password" id="changepass">
+                    </div>
+                    <div class="form-group">
+                        <h6 align="center">Role</h6>
+<!--                        <input type="text" class="userName" id="role" name="role" value="">-->
+                        <select id="role" name="role" style="width: 180px;">
+                            <option id="option1">Admin</option>
+                            <option id="option2">User</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer"id = "but" >
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="update()" form="changer" id="save" class="btn btn-primary">Change data</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+</script>
+<script language="javascript" type="text/javascript" src="../js/main.js">
+    // del();
+</script>
+</body>
+</html>
