@@ -4,6 +4,8 @@ import com.jm.ppeigth.model.Role;
 import com.jm.ppeigth.model.User;
 import com.jm.ppeigth.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,10 +23,10 @@ public class UpdateUser {
     private UserServiceImpl userService;
 
     @PostMapping
-    public String update(@RequestParam String username,
-                         @RequestParam(name = "password", required = false) String password,
-                         @RequestParam("role") String role,
-                         @RequestParam("id") Long id) {
+    public ResponseEntity<String> update(@RequestParam String username,
+                                         @RequestParam(name = "password", required = false) String password,
+                                         @RequestParam("role") String role,
+                                         @RequestParam("id") Long id) {
         User user = new User();
         boolean bool = false;
         if (password.equals("")) {
@@ -41,10 +43,10 @@ public class UpdateUser {
                 user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
             }
             userService.changeUserData(id, user, bool);
-            return "";
-        } else {
-            return "error";
+            return new ResponseEntity<>("", HttpStatus.OK);
         }
+
+        return new ResponseEntity<>("error", HttpStatus.OK);
     }
 
     private boolean passAndUsername(String username, Long id) {
