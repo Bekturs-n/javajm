@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title> Login</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"
+          th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body style="background-color: #efefef">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4" style="margin: auto;">
+            <form action="/login/process" method="POST" class="form-horizontal" style="padding: 80px 0px">
+                <div class="form-group">
+                    <div class="col">
+                        <h3> Please sign in </h3>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="username" placeholder="Email address"
+                               class="form-control">
+                        <input type="password" name="password" placeholder="Password"
+                               class="form-control">
+                        <!--                <input type="submit" value="Login" class="btn btn-info">-->
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block button24">Login</button>
+                </div>
+
+                <!--            <button type="button" class="btn btn-info">Info</button>-->
+            </form>
+        </div>
+    </div>
+</div>
+
+<div style="width: 200px; margin: auto;">
+    <h2 th:utext="${error}" style="color: red;"></h2>
+</div>
+
+</body>
+</html>
