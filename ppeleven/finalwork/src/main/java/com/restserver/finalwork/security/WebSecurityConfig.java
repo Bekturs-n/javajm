@@ -26,18 +26,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("admin")
                 .password("pass")
                 .roles("USER");
-//        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-//                    .antMatchers("/login", "/rest").permitAll()
-//                    .antMatchers("/resources/**").permitAll()
-//                    .antMatchers("/css/**", "/js/**").permitAll()
-//                    .antMatchers("/auth").permitAll()
-//                    .antMatchers("/ajax").authenticated()
                 .anyRequest().authenticated()
                 .and().httpBasic();
 

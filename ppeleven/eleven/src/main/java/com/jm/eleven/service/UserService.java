@@ -6,17 +6,15 @@ import java.util.List;
 
 public interface UserService {
 
-    void addUsers(User user, String role);
+    void addUsers(User user);
 
     String getAllUser();
 
     User getUserByID(Long id);
 
-    void changeUserData(User user, String role);
+    void changeUserData(User user);
 
     void deleteUser(Long id);
-
-//    boolean validateUser(User user);
 
     boolean nameIsEmpty(String login);
 

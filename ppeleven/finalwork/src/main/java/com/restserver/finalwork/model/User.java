@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -95,30 +95,30 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return !false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return !false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return !false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isActive;
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return getRoles();
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return !false;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return !false;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return !false;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return isActive;
+//    }
 
 //    @Override
 //    public String toString() {

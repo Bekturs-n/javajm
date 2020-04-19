@@ -1,11 +1,9 @@
 package com.restserver.finalwork.service;
 
-import com.google.gson.Gson;
 import com.restserver.finalwork.model.Role;
 import com.restserver.finalwork.model.User;
 import com.restserver.finalwork.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepo userRepo;
@@ -28,20 +26,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
-    }
-
-
-    @Override
-    public void addUsers(User user, String role) {
+    public void addUsers(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
-        if (role.equalsIgnoreCase("admin")) {
-            user.setRoles(Collections.singleton(new Role(1l, "ROLE_ADMIN")));
-        } else {
-            user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
-        }
         userRepo.save(user);
     }
 

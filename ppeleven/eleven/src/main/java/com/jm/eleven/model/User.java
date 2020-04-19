@@ -3,31 +3,21 @@ package com.jm.eleven.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "users")
 public class User implements UserDetails {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "email")
     private String username;
-    @Column(name = "password")
+
     private String password;
-    @Transient
+
     private String password2;
 
     private boolean isActive;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+
     private Set<Role> roles;
 
 
@@ -117,10 +107,4 @@ public class User implements UserDetails {
         return isActive;
     }
 
-//    @Override
-//    public String toString() {
-//        return "User [id =" + id +
-//                "username =" + username +
-//                "password ="+ password + "]";
-//    }
 }

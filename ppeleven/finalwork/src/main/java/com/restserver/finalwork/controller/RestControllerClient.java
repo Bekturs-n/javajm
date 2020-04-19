@@ -13,51 +13,44 @@ import java.awt.*;
 import java.util.Collections;
 
 @RestController
-@RequestMapping(value = "/server")
+@RequestMapping(value = "/rest")
 public class RestControllerClient {
 
     @Autowired
     private UserServiceImpl userService;
 
-    @GetMapping
+    @RequestMapping(value = "/user/getall", method = RequestMethod.GET)
     public String getAllUsers() {
         String json = new Gson().toJson(userService.getAllUser());
         return json;
     }
 
-    @RequestMapping(value = "/auth/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/getbyname/{username}", method = RequestMethod.GET)
     public String getUser(@PathVariable String username) {
         User user = userService.getUserByName(username);
         String json = new Gson().toJson(user);
         return json;
     }
 
-    @RequestMapping(value = "/byid/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/getbyid/{id}", method = RequestMethod.GET) //userbyid
     public String getUser(@PathVariable long id) {
         User user = userService.getUserByID(id);
         String json = new Gson().toJson(user);
         return json;
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user/delete/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
     }
 
-    @PostMapping(value = "/{role}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addUser(@RequestBody User user,
-                        @PathVariable String role) {
-        userService.addUsers(user, role);
+    @PostMapping(value = "/user/adduser", consumes = "application/json")
+    public void addUser(@RequestBody User user) {
+        userService.addUsers(user);
     }
 
-    @PutMapping(value = "/{role}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateUser(@RequestBody User user,
-                           @PathVariable String role) {
-        if (role.equalsIgnoreCase("admin")) {
-            user.setRoles(Collections.singleton(new Role(1L, "ROLE_ADMIN")));
-        } else {
-            user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
-        }
+    @PutMapping(value = "/user/update", consumes = "application/json")
+    public void updateUser(@RequestBody User user) {
         userService.changeUserData(user);
     }
 }

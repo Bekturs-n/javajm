@@ -5,7 +5,7 @@ $(document).ready(function getPage() {
 });
 
 function updatePage() {
-    $.getJSON("/ajax", function (data, textStatus, jqXHR) {
+    $.getJSON("/rest", function (data, textStatus, jqXHR) {
         var out = "";
         global.users = data;
         var i = 0;
@@ -45,7 +45,7 @@ function edit(id) {
 function del(id) {
     $.ajax({
         type: "GET",
-        url: '/ajax/' + id,
+        url: '/rest/' + id,
         success: function (data) {
             $('#' + id).remove();
         }
@@ -60,7 +60,7 @@ function update() {
     var role = $("#role").val();
     // console.log(role);
     $.post(
-        "/update", {
+        "/rest/update", {
             id: id,
             username: username,
             password: password,
@@ -93,7 +93,7 @@ function addUser() {
     var role = $("#roles").val();
     // console.log(role);
     $.post(
-        "/ajax", {
+        "/rest", {
             username: username,
             password: password,
             password1: password1,
